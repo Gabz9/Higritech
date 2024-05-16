@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Agroverde_style/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Teko:wght@300..700&display=swap"
+        rel="stylesheet">
+    <script src="Agroverde_script/index.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $("#main").load("./parametros.html");
+        });
+    </script>
+
+    <title>Agroverde</title>
+
+</head>
+
+<body>
+
+    <!--            Menu Superior            -->
+
+    <header>
+        <div id="MenuSuperior">
+            <div class="MenuSupItem">
+                <button id="open_btn"><i class="fa-solid fa-list"></i></button>
+                <h1>AgroVerde</h1>
+            </div>
+
+            <div id="MenuSup_btn">
+                <a href="login.html"> <i class="fa-regular fa-user"></i> </a>
+                <a href="perfil.html"> <i class="fa-solid fa-right-to-bracket"></i> </a>
+            </div>
+        </div>
+
+    </header>
+
+    <!--                Menu Lateral           -->
+
+    <div class="Conteudo">
+        
+        <nav class="MenuLateral" id="MenuLateral_fun">
+            <ul>
+                <li>
+                    <i class="fa-solid fa-gear"></i>
+                    <a href=""> Parâmetros </a>
+                </li>
+                <li>
+                    <i class="fa-solid fa-tag"></i>
+                    <a href="produtos.html"> Produtos </a>
+                </li>
+                <li>
+                    <i class="fa-solid fa-faucet-drip"></i>
+                    <a href="#" class="SubMenuLateral" onclick="toggleSubMenu()"> Irrigação </a>
+                </li>
+                <ul id="SubMenuIrrigacao" style="display: none;">
+                    <li>
+                        <i class="fa-solid fa-wrench"></i>
+                        <a href="equipamento.html"> Equipamentos </a>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-droplet"></i>
+                        <a href="plano.html"> Planos </a>
+                    </li>
+                </ul>
+            </ul>
+        </nav>
+
+        <div class="container">
+            <div class="caixaSuperior">
+                <h2>Caixa Superior</h2>
+                <p>Conteúdo da caixa superior.</p>
+            </div>
+            <div class="caixaInferior">
+                <h2>Caixa Inferior</h2>
+                <p>Conteúdo da caixa inferior.</p>
+            </div>
+        </div>
+    </div>
+    </div>
+
+</body>
+
+</html>
