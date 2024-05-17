@@ -9,7 +9,7 @@ function show(){
     menuLateral.classList.toggle('menu-fechado');
 }
 
-//Sub Menus no menu lateral//
+// Sub Menus no menu lateral //
 
 function toggleSubMenu() {
     var subMenu = document.getElementById("SubMenuIrrigacao");
@@ -20,7 +20,7 @@ function toggleSubMenu() {
     }
 }
 
-// adaptar tamanho do conteudo principal/formularios //
+// Adaptar tamanho do conteudo principal/formularios //
 
 function toggleSubMenu() {
     var subMenu = document.getElementById("SubMenuIrrigacao");
@@ -28,7 +28,7 @@ function toggleSubMenu() {
     ajustarEspaco(); // Chama a função para ajustar o espaço quando o submenu é aberto ou fechado
 }
 
-//////////////////////////////////////////
+// MOdelo de transição CSS para menu lateral aberto - fechado //
 
 function toggleMenu() {
     var menuLateral = document.getElementById("MenuLateral_fun");
@@ -42,3 +42,32 @@ function toggleMenu() {
       container.style.marginLeft = "0";
     }
   }
+
+// Modelo de estrutura para exibir dados cadastrados na caixa superior //
+
+// Suponha que você tenha armazenado os dados do produto em variáveis como nomeProduto, unidadeMedida, producaoMinima e producaoMaxima
+
+const produtoInformacoesDiv = document.getElementById('produtoInformacoes');
+
+// Crie elementos HTML para cada informação do produto
+const nomeProdutoSpan = document.createElement('span');
+nomeProdutoSpan.textContent = `Nome do Produto: ${nomeProduto}`;
+
+const unidadeMedidaSpan = document.createElement('span');
+unidadeMedidaSpan.textContent = `Unidade de Medida: ${unidadeMedida}`;
+
+const producaoMinimaSpan = document.createElement('span');
+producaoMinimaSpan.textContent = `Produção Mínima: ${producaoMinima}`;
+
+const producaoMaximaSpan = document.createElement('span');
+producaoMaximaSpan.textContent = `Produção Máxima: ${producaoMaxima}`;
+
+// Combine os elementos em uma linha
+const linhaInformacoes = document.createElement('p');
+linhaInformacoes.appendChild(nomeProdutoSpan);
+linhaInformacoes.appendChild(unidadeMedidaSpan);
+linhaInformacoes.appendChild(producaoMinimaSpan);
+linhaInformacoes.appendChild(producaoMaximaSpan);
+
+// Adicione a linha de informações ao div
+produtoInformacoesDiv.appendChild(linhaInformacoes);
