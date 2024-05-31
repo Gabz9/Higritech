@@ -8,19 +8,22 @@ function show() {
     menuLateral.classList.toggle('menu-fechado');
 }
 
+
+function ajustarEspaco() {
+    if (menuLateral.classList.contains('menu-fechado')) {
+        conteudo.style.marginLeft = "20px";
+    } else {
+        conteudo.style.marginLeft = "320px";
+}
+}
+
+
+
 // Sub Menus no menu lateral
 function toggleSubMenu() {
     var subMenu = document.getElementById("SubMenuIrrigacao");
     subMenu.style.display = subMenu.style.display === "none" ? "block" : "none";
     ajustarEspaco();
-}
-
-// Adaptar tamanho do conteúdo principal/formulários
-function ajustarEspaco() {
-    var conteudoPrincipal = document.querySelector('.conteudo-principal');
-    if (conteudoPrincipal) {
-        conteudoPrincipal.style.marginLeft = document.getElementById("SubMenuIrrigacao").style.display === "block" ? "250px" : "0";
-    }
 }
 
 // Modelo de transição CSS para menu lateral aberto - fechado
@@ -40,7 +43,8 @@ function toggleMenu() {
 // Modelo de estrutura para exibir dados cadastrados na caixa superior
 const planoInformacoesDiv = document.getElementById('planoInformacoes');
 
-// Suponha que você tenha armazenado os dados do plano em variáveis como nomePlano, duracaoPlano, precoPlano e descricaoPlano
+// tabelas
+
 const nomePlano = "Exemplo de Plano";
 const duracaoPlano = "6 meses";
 const precoPlano = "R$ 200,00";
@@ -65,3 +69,4 @@ linhaInformacoes.appendChild(precoPlanoSpan);
 linhaInformacoes.appendChild(descricaoPlanoSpan);
 
 planoInformacoesDiv.appendChild(linhaInformacoes);
+
