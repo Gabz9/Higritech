@@ -66,6 +66,9 @@ header {
     color: rgb(255, 255, 255);
     background-color: #283618;
     box-shadow: 3px 3px 6px 0px rgba(196, 196, 196, 1);
+    position: fixed;
+    width: 100%;
+    top: 0;
 }
 
 header a {
@@ -113,6 +116,7 @@ header a {
 .Conteudo {
     margin-left: 320px;
     transition: margin-left 1s;
+    margin-top: 95px;
 }
 
 .menu-aberto .Conteudo {
@@ -162,3 +166,4 @@ header a {
     margin-left: auto;
     padding-right: 1px;
 }
+

@@ -1,3 +1,32 @@
+
+<?php
+    session_start();
+    include_once('config.php');
+    
+    if((!isset($_SESSION['email']) == true) and (!isset($_SESSION['senha']) == true)) {
+        unset($_SESSION['email']);
+        unset($_SESSION['senha']);
+        header('Location: login.php');
+    }
+    $logadoEmail = $_SESSION['email'];
+
+    // Conectando ao banco de dados
+    $conexao = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+
+    if ($conexao->connect_error) {
+        die("Falha na conexão: " . $conexao->connect_error);
+    }
+
+    // Buscando o nome do usuário
+    $sqlNome = "SELECT nome FROM usuarios WHERE email = '$logadoEmail'";
+    $resultNome = $conexao->query($sqlNome);
+    $logadoNome = '';
+    if ($resultNome->num_rows > 0) {
+        $rowNome = $resultNome->fetch_assoc();
+        $logadoNome = $rowNome['nome'];
+    }
+    ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -25,45 +54,48 @@
                 <button id="open_btn"><i class="fa-solid fa-list"></i></button>
                 <h1>Higritech</h1>
             </div>
-
+            <?php
+            echo '<h4 class="bvUsuario"> <u>' . $logadoNome . '</u></h4>';
+            ?>
             <div id="MenuSup_btn">
                 <a href="perfil.php"> <i class="fa-regular fa-user"></i> </a>
-                <a href="login.php"> <i class="fa-solid fa-right-to-bracket"></i> </a>
+                <a href="sair.php"> <i class="fa-solid fa-right-to-bracket"></i> </a>
             </div>
         </div>
-
     </header>
 
     <!--                Menu Lateral           -->
 
-    <div class="Conteudo">
-        <nav class="MenuLateral" id="MenuLateral_fun">
-            <ul>
-                <li>
-                    <i class="fa-solid fa-house"></i>
-                    <a href="index.php"> Menu </a>
-                </li>
-                <li>
-                    <i class="fa-solid fa-tag"></i>
-                    <a href="produtos.php"> Produtos </a>
-                </li>
-                <li>
-                    <i class="fa-solid fa-faucet-drip"></i>
-                    <a href="#" class="SubMenuLateral" onclick="toggleSubMenu()"> Irrigação </a>
-                </li>
-                <ul id="SubMenuIrrigacao" style="display: none;">
-                    <li>
-                        <i class="fa-solid fa-wrench"></i>
-                        <a href="equipamento.php"> Equipamentos </a>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-droplet"></i>
-                        <a href="plano.php"> Planos </a>
-                    </li>
-                </ul>
-            </ul>
-        </nav>
 
+    <nav class="MenuLateral" id="MenuLateral_fun">
+        <ul>
+            <li>
+                <i class="fa-solid fa-house"></i>
+                <a href="index.php"> Menu </a>
+            </li>
+            <li>
+                <i class="fa-solid fa-tag"></i>
+                <a href="produtos.php"> Produtos </a>
+            </li>
+            <li>
+                <i class="fa-solid fa-faucet-drip"></i>
+                <a href="#" class="SubMenuLateral" onclick="toggleSubMenu()"> Irrigação </a>
+            </li>
+            <ul id="SubMenuIrrigacao" style="display: none;">
+                <li>
+                    <i class="fa-solid fa-wrench"></i>
+                    <a href="equipamento.php"> Equipamentos </a>
+                </li>
+                <li>
+                    <i class="fa-solid fa-droplet"></i>
+                    <a href="plano.php"> Planos </a>
+                </li>
+            </ul>
+        </ul>
+    </nav>
+
+
+    <div class="Conteudo" id="Conteudo">
         <div class="container">
             <div class="caixaSuperior">
                 <h2>Cadastrar Produtos</h2>
@@ -102,7 +134,7 @@
                     </thead>
                     <tbody>
                         <?php
-                        include_once('config.php');
+                        include_once ('config.php');
 
                         if (isset($_POST['cadastrar'])) {
                             $nome = $_POST['nomeProduto'];
@@ -112,7 +144,7 @@
 
                             $sql = "INSERT INTO produtos (nome, unidade_medida, producao_minima, producao_maxima) 
                                     VALUES ('$nome', '$unidade_medida', '$producao_minima', '$producao_maxima')";
-                            if ($conexao->query($sql) === TRUE){
+                            if ($conexao->query($sql) === TRUE) {
                                 echo "Novo produto cadastrado  com sucesso";
                             } else {
                                 echo "Erro: " . $sql . "<br>" . $conexao->error;
@@ -136,7 +168,7 @@
                                 }
                             }
                         }
-                        
+
                         $sql = "SELECT * FROM produtos";
                         $result = $conexao->query($sql);
 

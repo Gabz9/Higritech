@@ -29,3 +29,30 @@ function ajustarEspaco() {
         conteudo.style.marginLeft = "320px";
 }
 }
+
+// Modelo de estrutura para exibir dados cadastrados na caixa superior //
+
+const produtoInformacoesDiv = document.getElementById('produtoInformacoes');
+
+// Crie elementos HTML para cada informação do produto
+const nomeProdutoSpan = document.createElement('span');
+nomeProdutoSpan.textContent = `Nome do Produto: ${nomeProduto}`;
+
+const unidadeMedidaSpan = document.createElement('span');
+unidadeMedidaSpan.textContent = `Unidade de Medida: ${unidadeMedida}`;
+
+const producaoMinimaSpan = document.createElement('span');
+producaoMinimaSpan.textContent = `Produção Mínima: ${producaoMinima}`;
+
+const producaoMaximaSpan = document.createElement('span');
+producaoMaximaSpan.textContent = `Produção Máxima: ${producaoMaxima}`;
+
+// Combine os elementos em uma linha
+const linhaInformacoes = document.createElement('p');
+linhaInformacoes.appendChild(nomeProdutoSpan);
+linhaInformacoes.appendChild(unidadeMedidaSpan);
+linhaInformacoes.appendChild(producaoMinimaSpan);
+linhaInformacoes.appendChild(producaoMaximaSpan);
+
+// Adicione a linha de informações ao div
+produtoInformacoesDiv.appendChild(linhaInformacoes);

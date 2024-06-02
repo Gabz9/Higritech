@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="campo-entrada">
                     <label for="valorAgua">Valor Água/M³:</label>
-                    <input type="number" id="valorAgua" name="valorAgua" value="<?php echo $plano['valorAgua']; ?>" required>
+                    <input type="number" step="any" id="valorAgua" name="valorAgua" value="<?php echo $plano['valorAgua']; ?>" required>
                 </div>
                 <button class="cadastro" type="submit">Salvar</button>
             </form>

@@ -70,6 +70,7 @@
         rel="stylesheet">
     <script src="Higritech_script/index.js" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="icon" rel="Higritech_repo/OIG3.pWkhLaUsxrpuI.ico" type="image/x-icon">
 
     <title>Higritech</title>
 
@@ -85,7 +86,7 @@
                 <h1>Higritech</h1>
             </div>
                 <?php
-                    echo '<h4 class="bvUsuario">Bem vindo <u>' . $logadoNome . '</u></h4>';
+                    echo '<h4 class="bvUsuario"> Bem vindo <u>' . $logadoNome . '</u></h4>';
                 ?>
             <div id="MenuSup_btn">
                 <a href="perfil.php"> <i class="fa-regular fa-user"></i> </a>
@@ -96,31 +97,31 @@
 
     <!-- Menu Lateral -->
     <nav class="MenuLateral" id="MenuLateral_fun">
-        <ul>
-            <li>
-                <i class="fa-solid fa-house"></i>
-                <a href="index.php"> Menu </a>
-            </li>
-            <li>
-                <i class="fa-solid fa-tag"></i>
-                <a href="produtos.php"> Produtos </a>
-            </li>
-            <li>
-                <i class="fa-solid fa-faucet-drip"></i>
-                <a href="#" class="SubMenuLateral" onclick="toggleSubMenu()"> Irrigação </a>
-            </li>
-            <ul id="SubMenuIrrigacao" style="display: none;">
+            <ul>
                 <li>
-                    <i class="fa-solid fa-wrench"></i>
-                    <a href="equipamento.php"> Equipamentos </a>
+                    <i class="fa-solid fa-house"></i>
+                    <a href="index.php"> Menu </a>
                 </li>
                 <li>
-                    <i class="fa-solid fa-droplet"></i>
-                    <a href="plano.php"> Planos </a>
+                    <i class="fa-solid fa-tag"></i>
+                    <a href="produtos.php"> Produtos </a>
                 </li>
+                <li>
+                    <i class="fa-solid fa-faucet-drip"></i>
+                    <a href="#" class="SubMenuLateral" onclick="toggleSubMenu()"> Irrigação </a>
+                </li>
+                <ul id="SubMenuIrrigacao" style="display: none;">
+                    <li>
+                        <i class="fa-solid fa-wrench"></i>
+                        <a href="equipamento.php"> Equipamentos </a>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-droplet"></i>
+                        <a href="plano.php"> Planos </a>
+                    </li>
+                </ul>
             </ul>
-        </ul>
-    </nav>
+        </nav>
 
     <div class="Conteudo" id="Conteudo">
         <div class="DashProduto">

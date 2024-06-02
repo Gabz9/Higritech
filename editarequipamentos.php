@@ -4,11 +4,11 @@ include_once('config.php');
 if (isset($_POST['editar'])) {
     $id = $_POST['id'];
     $nome = $_POST['nomeProduto'];
-    $pressao = $_POST['unidadeMedida'];
+    $tempo = $_POST['unidadeMedida'];
     $raio = $_POST['producaoMinima'];
     $vazao = $_POST['producaoMaxima'];
 
-    $sql = "UPDATE equipamentos SET nome='$nome', pressao='$pressao', raio=$raio, vazao=$vazao WHERE id=$id";
+    $sql = "UPDATE equipamentos SET nome='$nome', tempo='$tempo', raio=$raio, vazao=$vazao WHERE id=$id";
     if ($conexao->query($sql) === TRUE) {
         echo "Equipamento atualizado com sucesso!";
         header('Location: equipamento.php');
@@ -39,7 +39,8 @@ if (isset($_GET['id'])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src="Higritech_script/produtos.js" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-   
+    <link rel="icon" href="Higritech_repo/OIG3.pWkhLaUsxrpuI.ico" type="image/x-icon">
+
     <title>Editar Equipamento</title>
 
 </head>
@@ -56,11 +57,11 @@ if (isset($_GET['id'])) {
                     <input type="text" id="nomeProduto" name="nomeProduto" value="<?php echo $row['nome']; ?>" required>
                 </div>
                 <div class="campo-entrada">
-                    <label for="unidadeMedida">Pressão utilizada:</label>
-                    <input type="text" id="unidadeMedida" name="unidadeMedida" value="<?php echo $row['pressao']; ?>" required>
+                    <label for="unidadeMedida">Utilização diária (horas):</label>
+                    <input type="text" id="unidadeMedida" name="unidadeMedida" value="<?php echo $row['tempo']; ?>" required>
                 </div>
                 <div class="campo-entrada">
-                    <label for="producaoMinima">Raio de alcance:</label>
+                    <label for="producaoMinima">Raio de alcance (metros):</label>
                     <input type="number" id="producaoMinima" name="producaoMinima" value="<?php echo $row['raio']; ?>" required>
                 </div>
                 <div class="campo-entrada">

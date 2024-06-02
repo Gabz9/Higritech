@@ -4,7 +4,7 @@ use projetopa;
 CREATE TABLE `equipamentos` (
   `id` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
-  `pressao` varchar(255) NOT NULL,
+  `tempo` int(2) NOT NULL,
   `raio` int(11) NOT NULL,
   `vazao` int(11) NOT NULL
 );

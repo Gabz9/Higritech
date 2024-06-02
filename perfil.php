@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once('config.php');
+include_once ('config.php');
 
 if ((!isset($_SESSION['email']) == true) and (!isset($_SESSION['senha']) == true)) {
     unset($_SESSION['email']);
@@ -53,10 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (empty($erros)) {
         $atualizacao_sucesso = true;
-    } else {
-        foreach ($erros as $erro) {
-            echo "<p>$erro</p>";
-        }
     }
 }
 
@@ -75,9 +71,20 @@ $conexao->close();
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&family=Teko:wght@300..700&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&family=Teko:wght@300..700&display=swap"
         rel="stylesheet">
     <title>Higritech - Perfil</title>
+
+    <script>
+        // Função para exibir alertas de erro
+        function exibirErros(erros) {
+            if (erros.length > 0) {
+                alert(erros.join("\n"));
+            }
+        }
+    </script>
+
 </head>
 
 <body>
@@ -89,7 +96,8 @@ $conexao->close();
                 <h1 class="nomePerfil"><?php echo htmlspecialchars($usuario['nome'], ENT_QUOTES, 'UTF-8'); ?></h1>
 
                 <div class="input-box">
-                    <input type="text" name="nome" placeholder="Nome" value="<?php echo htmlspecialchars($usuario['nome'], ENT_QUOTES, 'UTF-8'); ?>" required>
+                    <input type="text" name="nome" placeholder="Nome"
+                        value="<?php echo htmlspecialchars($usuario['nome'], ENT_QUOTES, 'UTF-8'); ?>" required>
                     <i class='bx bxs-lock-alt'></i>
                 </div>
 
@@ -108,12 +116,17 @@ $conexao->close();
         </div>
     </div>
 
-    <?php if ($atualizacao_sucesso): ?>
-    <script>
-        alert("Dados atualizados com sucesso!");
-        window.location.href = "index.php";
-    </script>
+    <?php if (!empty($erros)): ?>
+        <script>
+            // Passar a mensagem de erro para o JavaScript
+            var erros = <?php echo json_encode($erros); ?>;
+            exibirErros(erros);
+        </script>
     <?php endif; ?>
-</body>
 
-</html>
+    <?php if ($atualizacao_sucesso): ?>
+        <script>
+            alert("Dados atualizados com sucesso!");
+            window.location.href = "index.php";
+        </script>
+    <?php endif; ?>

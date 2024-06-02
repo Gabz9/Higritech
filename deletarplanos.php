@@ -1,14 +1,13 @@
 <?php
-require 'config.php';
+include_once('config.php');
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
+    $sql = "DELETE FROM equipamentos WHERE id=$id";
+    $conexao->query($sql);
 
-    $sql = "DELETE FROM planos WHERE id = ?";
-    $stmt = $conexao->prepare($sql);
-    $stmt->execute([$id]);
-
-    header("Location: plano.php");
-    exit();
+    header('Location: planos.php');
 }
+
+$conexao->close();
 ?>

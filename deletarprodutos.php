@@ -1,5 +1,8 @@
 <?php
+
 include_once('config.php');
+
+var_dump('entrou');
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];

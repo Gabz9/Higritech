@@ -1,3 +1,31 @@
+<?php
+    session_start();
+    include_once('config.php');
+    
+    if((!isset($_SESSION['email']) == true) and (!isset($_SESSION['senha']) == true)) {
+        unset($_SESSION['email']);
+        unset($_SESSION['senha']);
+        header('Location: login.php');
+    }
+    $logadoEmail = $_SESSION['email'];
+
+    // Conectando ao banco de dados
+    $conexao = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+
+    if ($conexao->connect_error) {
+        die("Falha na conexão: " . $conexao->connect_error);
+    }
+
+    // Buscando o nome do usuário
+    $sqlNome = "SELECT nome FROM usuarios WHERE email = '$logadoEmail'";
+    $resultNome = $conexao->query($sqlNome);
+    $logadoNome = '';
+    if ($resultNome->num_rows > 0) {
+        $rowNome = $resultNome->fetch_assoc();
+        $logadoNome = $rowNome['nome'];
+    }
+    ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -27,18 +55,19 @@
                 <button id="open_btn"><i class="fa-solid fa-list"></i></button>
                 <h1>Higritech</h1>
             </div>
-
+            <?php
+            echo '<h4 class="bvUsuario"> <u>' . $logadoNome . '</u></h4>';
+            ?>
             <div id="MenuSup_btn">
-                <a href="perfil.html"> <i class="fa-regular fa-user"></i> </a>
-                <a href="login.php"> <i class="fa-solid fa-right-to-bracket"></i> </a>
+                <a href="perfil.php"> <i class="fa-regular fa-user"></i> </a>
+                <a href="sair.php"> <i class="fa-solid fa-right-to-bracket"></i> </a>
             </div>
         </div>
-
     </header>
 
     <!--                Menu Lateral           -->
 
-    <div class="Conteudo">
+    <div class="Conteudo" id="Conteudo">
         <nav class="MenuLateral" id="MenuLateral_fun">
             <ul>
                 <li>
@@ -75,16 +104,16 @@
                         <input type="text" id="nomeProduto" name="nomeProduto" required>
                     </div>
                     <div class="campo-entrada">
-                        <label for="unidadeMedida">Pressão utilizada:</label>
-                        <input type="text" id="unidadeMedida" name="unidadeMedida" required>
+                        <label for="unidadeMedida">Utilização diária (horas): </label>
+                        <input type="decimal" id="unidadeMedida" name="unidadeMedida" required>
                     </div>
                     <div class="campo-entrada">
-                        <label for="producaoMinima">Raio de alcance:</label>
+                        <label for="producaoMinima">Raio de alcance (metros):</label>
                         <input type="number" id="producaoMinima" name="producaoMinima" required>
                     </div>
                     <div class="campo-entrada">
                         <label for="producaoMaxima">Vazão Litros/Hora:</label>
-                        <input type="number" id="producaoMaxima" name="producaoMaxima" required>
+                        <input type="decimal" id="producaoMaxima" name="producaoMaxima" required>
                     </div>
                     <button class="cadastro" type="submit" name="cadastrar">Cadastrar</button>
                 </form>
@@ -96,7 +125,7 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>Pressão</th>
+                            <th>Horas de Utilização</th>
                             <th>Raio</th>
                             <th>Vazão</th>
                             <th>Ações</th>
@@ -108,11 +137,11 @@
 
                         if (isset($_POST['cadastrar'])) {
                             $nome = $_POST['nomeProduto'];
-                            $pressao = $_POST['unidadeMedida'];
+                            $tempo = $_POST['unidadeMedida'];
                             $raio = $_POST['producaoMinima'];
                             $vazao = $_POST['producaoMaxima'];
 
-                            $sql = "INSERT INTO equipamentos (nome, pressao, raio, vazao) VALUES ('$nome', '$pressao', $raio, $vazao)";
+                            $sql = "INSERT INTO equipamentos (nome, tempo, raio, vazao) VALUES ('$nome', '$tempo', $raio, $vazao)";
                             if ($conexao->query($sql) === TRUE) {
                                 echo "Novo equipamento cadastrado com sucesso!";
                             } else {
@@ -145,7 +174,7 @@
                             while($row = $result->fetch_assoc()) {
                                 echo "<tr>
                                     <td>{$row['nome']}</td>
-                                    <td>{$row['pressao']}</td>
+                                    <td>{$row['tempo']}</td>
                                     <td>{$row['raio']}</td>
                                     <td>{$row['vazao']}</td>
                                     <td>
