@@ -113,8 +113,20 @@ header a {
 }
 
 .menu-fechado {
-    margin-left: -300px;
-    /* Largura da barra lateral */
+    transform: translateX(-300px);
+}
+
+.Conteudo {
+    margin-left: 320px;
+    transition: margin-left 1s;
+}
+
+.menu-aberto .Conteudo {
+    margin-left: 320px;
+}
+
+.menu-fechado .Conteudo {
+    margin-left: 20px;
 }
 
 .MenuLateral .menu-link {
