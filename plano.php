@@ -1,38 +1,38 @@
 <?php
-include_once('config.php');
+    include_once('config.php');
 
-$sql_produtos = "SELECT id, nome FROM produtos";
-$result_produtos = $conexao->query($sql_produtos);
+    $sql_produtos = "SELECT id, nome FROM produtos";
+    $result_produtos = $conexao->query($sql_produtos);
 
-$sql_equipamentos = "SELECT id, nome, vazao FROM equipamentos";
-$result_equipamentos = $conexao->query($sql_equipamentos);
+    $sql_equipamentos = "SELECT id, nome, vazao FROM equipamentos";
+    $result_equipamentos = $conexao->query($sql_equipamentos);
 
-$produtos_disponiveis = $result_produtos->num_rows > 0;
-$equipamentos_disponiveis = $result_equipamentos->num_rows > 0;
+    $produtos_disponiveis = $result_produtos->num_rows > 0;
+    $equipamentos_disponiveis = $result_equipamentos->num_rows > 0;
 
-session_start();
-include_once('config.php');
+    session_start();
+    include_once('config.php');
 
-if ((!isset($_SESSION['email']) == true) and (!isset($_SESSION['senha']) == true)) {
-    unset($_SESSION['email']);
-    unset($_SESSION['senha']);
-    header('Location: login.php');
-}
-$logadoEmail = $_SESSION['email'];
+    if ((!isset($_SESSION['email']) == true) and (!isset($_SESSION['senha']) == true)) {
+        unset($_SESSION['email']);
+        unset($_SESSION['senha']);
+        header('Location: login.php');
+    }
+    $logadoEmail = $_SESSION['email'];
 
-$conexao = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+    $conexao = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
 
-if ($conexao->connect_error) {
-    die("Falha na conexão: " . $conexao->connect_error);
-}
+    if ($conexao->connect_error) {
+        die("Falha na conexão: " . $conexao->connect_error);
+    }
 
-$sqlNome = "SELECT nome FROM usuarios WHERE email = '$logadoEmail'";
-$resultNome = $conexao->query($sqlNome);
-$logadoNome = '';
-if ($resultNome->num_rows > 0) {
-    $rowNome = $resultNome->fetch_assoc();
-    $logadoNome = $rowNome['nome'];
-}
+    $sqlNome = "SELECT nome FROM usuarios WHERE email = '$logadoEmail'";
+    $resultNome = $conexao->query($sqlNome);
+    $logadoNome = '';
+    if ($resultNome->num_rows > 0) {
+        $rowNome = $resultNome->fetch_assoc();
+        $logadoNome = $rowNome['nome'];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -216,19 +216,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $produtos_disponiveis && $equipament
 
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
-    try {
-        $sql = "DELETE FROM planos WHERE id=$id";
-        if ($conexao->query($sql) === TRUE) {
-            echo "Plano deletado com sucesso!";
-        } else {
-            throw new Exception($conexao->error);
-        }
-    } catch (Exception $e) {
-        if (strpos($e->getMessage(), 'a foreign key constraint fails') !== false) {
-            echo "<script>alert('Produto associado em um plano existente, não é possivel deletar');</script>";
-        } else {
-            echo "Erro ao deletar: " . $e->getMessage();
-        }
+    $sql = "DELETE FROM planos WHERE id=$id";
+    if ($conexao->query($sql) === TRUE) {
+        echo "Plano deletado com sucesso!";
+    } else {
+        echo "Erro ao deletar: " . $conexao->error;
     }
 }
 

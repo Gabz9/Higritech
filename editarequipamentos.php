@@ -3,10 +3,10 @@ include_once('config.php');
 
 if (isset($_POST['editar'])) {
     $id = $_POST['id'];
-    $nome = $_POST['nomeProduto'];
-    $tempo = $_POST['unidadeMedida'];
-    $raio = $_POST['producaoMinima'];
-    $vazao = $_POST['producaoMaxima'];
+    $nome = $_POST['nomeEquipamento'];
+    $tempo = $_POST['tempo'];
+    $raio = $_POST['raio'];
+    $vazao = $_POST['vazao'];
 
     $sql = "UPDATE equipamentos SET nome='$nome', tempo='$tempo', raio=$raio, vazao=$vazao WHERE id=$id";
     if ($conexao->query($sql) === TRUE) {
@@ -53,20 +53,20 @@ if (isset($_GET['id'])) {
             <form action="editarequipamentos.php" method="POST">
                 <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
                 <div class="campo-entrada">
-                    <label for="nomeProduto">Nome do equipamento:</label>
-                    <input type="text" id="nomeProduto" name="nomeProduto" value="<?php echo $row['nome']; ?>" required>
+                    <label for="nomeEquipamento">Nome do equipamento:</label>
+                    <input type="text" id="nomeEquipamento" name="nomeEquipamento" value="<?php echo $row['nome']; ?>" required>
                 </div>
                 <div class="campo-entrada">
-                    <label for="unidadeMedida">Utilização diária (horas):</label>
-                    <input type="text" id="unidadeMedida" name="unidadeMedida" value="<?php echo $row['tempo']; ?>" required>
+                    <label for="tempo">Utilização diária (horas):</label>
+                    <input type="text" id="tempo" name="tempo" value="<?php echo $row['tempo']; ?>" required>
                 </div>
                 <div class="campo-entrada">
-                    <label for="producaoMinima">Raio de alcance (metros):</label>
-                    <input type="number" id="producaoMinima" name="producaoMinima" value="<?php echo $row['raio']; ?>" required>
+                    <label for="raio">Raio de alcance (metros):</label>
+                    <input type="number" id="raio" name="raio" value="<?php echo $row['raio']; ?>" required>
                 </div>
                 <div class="campo-entrada">
-                    <label for="producaoMaxima">Vazão Litros/Hora:</label>
-                    <input type="number" id="producaoMaxima" name="producaoMaxima" value="<?php echo $row['vazao']; ?>" required>
+                    <label for="vazao">Vazão Litros/Hora:</label>
+                    <input type="number" id="vazao" name="vazao" value="<?php echo $row['vazao']; ?>" required>
                 </div>
                 <button class="cadastro" type="submit" name="editar">Salvar</button>
             </form>

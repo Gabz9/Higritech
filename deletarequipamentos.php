@@ -1,13 +1,43 @@
 <?php
-include_once('config.php');
+    session_start();
+    include_once('config.php');
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $sql = "DELETE FROM equipamentos WHERE id=$id";
-    $conexao->query($sql);
+    if((!isset($_SESSION['email']) == true) and (!isset($_SESSION['senha']) == true)) {
+        unset($_SESSION['email']);
+        unset($_SESSION['senha']);
+        header('Location: login.php');
+        exit();
+    }
 
-    header('Location: equipamentos.php');
-}
+    $logadoEmail = $_SESSION['email'];
 
-$conexao->close();
+    // Conectando ao banco de dados
+    $conexao = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+
+    if ($conexao->connect_error) {
+        die("Falha na conexão: " . $conexao->connect_error);
+    }
+
+    if (isset($_GET['delete'])) {
+        $id = $_GET['delete'];
+        try {
+            $sql = "DELETE FROM equipamentos WHERE id=$id";
+            if ($conexao->query($sql) === TRUE) {
+                header('Location: equipamento.php?delete_success=true');
+                exit();
+            } else {
+                throw new Exception($conexao->error);
+            }
+        } catch (Exception $e) {
+            if (strpos($e->getMessage(), 'a foreign key constraint fails') !== false) {
+                echo "<script>
+                        alert('Equipamento associado em um plano existente, não é possivel deletar');
+                        window.location.href = 'equipamento.php';
+                    </script>";
+            } else {
+                echo "Erro ao deletar: " . $e->getMessage();
+            }
+        }
+    }
+
 ?>

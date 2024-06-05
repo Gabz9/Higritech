@@ -1,12 +1,12 @@
-
 <?php
     session_start();
     include_once('config.php');
-    
+
     if((!isset($_SESSION['email']) == true) and (!isset($_SESSION['senha']) == true)) {
         unset($_SESSION['email']);
         unset($_SESSION['senha']);
         header('Location: login.php');
+        exit();
     }
     $logadoEmail = $_SESSION['email'];
 
@@ -25,7 +25,7 @@
         $rowNome = $resultNome->fetch_assoc();
         $logadoNome = $rowNome['nome'];
     }
-    ?>
+?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -122,6 +122,11 @@
             </div>
             <div class="caixaInferior">
                 <h2>Produtos cadastrados</h2>
+                <?php
+                if (isset($_GET['delete_success']) && $_GET['delete_success'] == 'true') {
+                    echo "<p style='color:green;'>Produto deletado com sucesso!</p>";
+                }
+                ?>
                 <table>
                     <thead>
                         <tr>
@@ -145,27 +150,9 @@
                             $sql = "INSERT INTO produtos (nome, unidade_medida, producao_minima, producao_maxima) 
                                     VALUES ('$nome', '$unidade_medida', '$producao_minima', '$producao_maxima')";
                             if ($conexao->query($sql) === TRUE) {
-                                echo "Novo produto cadastrado  com sucesso";
+                                echo "Novo produto cadastrado com sucesso";
                             } else {
                                 echo "Erro: " . $sql . "<br>" . $conexao->error;
-                            }
-                        }
-
-                        if (isset($_GET['delete'])) {
-                            $id = $_GET['delete'];
-                            try {
-                                $sql = "DELETE FROM produtos WHERE id=$id";
-                                if ($conexao->query($sql) === TRUE) {
-                                    echo "Produto deletado com sucesso!";
-                                } else {
-                                    throw new Exception($conexao->error);
-                                }
-                            } catch (Exception $e) {
-                                if (strpos($e->getMessage(), 'a foreign key constraint fails') !== false) {
-                                    echo "<script>alert('Produto associado em um plano existente, não é possivel deletar');</script>";
-                                } else {
-                                    echo "Erro ao deletar: " . $e->getMessage();
-                                }
                             }
                         }
 
@@ -181,7 +168,7 @@
                                     <td>{$row['producao_maxima']}</td>
                                     <td>
                                         <a href='editarprodutos.php?id={$row['id']}'><i class='fa-solid fa-edit'></i></a>
-                                        <a href='produtos.php?delete={$row['id']}'><i class='fa-solid fa-trash'></i></a>
+                                        <a href='deletarprodutos.php?delete={$row['id']}'><i class='fa-solid fa-trash'></i></a>
                                     </td>
                                 </tr>";
                             }

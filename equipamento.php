@@ -1,30 +1,31 @@
 <?php
-    session_start();
-    include_once('config.php');
-    
-    if((!isset($_SESSION['email']) == true) and (!isset($_SESSION['senha']) == true)) {
-        unset($_SESSION['email']);
-        unset($_SESSION['senha']);
-        header('Location: login.php');
-    }
-    $logadoEmail = $_SESSION['email'];
+session_start();
+include_once('config.php');
 
-    // Conectando ao banco de dados
-    $conexao = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+if ((!isset($_SESSION['email']) == true) and (!isset($_SESSION['senha']) == true)) {
+    unset($_SESSION['email']);
+    unset($_SESSION['senha']);
+    header('Location: login.php');
+    exit();
+}
+$logadoEmail = $_SESSION['email'];
 
-    if ($conexao->connect_error) {
-        die("Falha na conexão: " . $conexao->connect_error);
-    }
+// Conectando ao banco de dados
+$conexao = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
 
-    // Buscando o nome do usuário
-    $sqlNome = "SELECT nome FROM usuarios WHERE email = '$logadoEmail'";
-    $resultNome = $conexao->query($sqlNome);
-    $logadoNome = '';
-    if ($resultNome->num_rows > 0) {
-        $rowNome = $resultNome->fetch_assoc();
-        $logadoNome = $rowNome['nome'];
-    }
-    ?>
+if ($conexao->connect_error) {
+    die("Falha na conexão: " . $conexao->connect_error);
+}
+
+// Buscando o nome do usuário
+$sqlNome = "SELECT nome FROM usuarios WHERE email = '$logadoEmail'";
+$resultNome = $conexao->query($sqlNome);
+$logadoNome = '';
+if ($resultNome->num_rows > 0) {
+    $rowNome = $resultNome->fetch_assoc();
+    $logadoNome = $rowNome['nome'];
+}
+?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -40,9 +41,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src="Higritech_script/produtos.js" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-   
     <title>Higritech</title>
-
 </head>
 
 <body>
@@ -121,6 +120,14 @@
             </div>
             <div class="caixaInferior">
                 <h2>Equipamentos cadastrados</h2>
+                <?php
+                if (isset($_GET['delete_success'])) {
+                    echo "<p style='color: green;'>Equipamento deletado com sucesso!</p>";
+                }
+                if (isset($_GET['delete_error'])) {
+                    echo "<p style='color: red;'>Equipamento associado em um plano existente, não é possível deletar.</p>";
+                }
+                ?>
                 <table>
                     <thead>
                         <tr>
@@ -133,7 +140,7 @@
                     </thead>
                     <tbody>
                         <?php
-                        include_once ('config.php');
+                        include_once('config.php');
 
                         if (isset($_POST['cadastrar'])) {
                             $nome = $_POST['nomeEquipamento'];
@@ -149,29 +156,11 @@
                             }
                         }
 
-                        if (isset($_GET['delete'])) {
-                            $id = $_GET['delete'];
-                            try {
-                                $sql = "DELETE FROM equipamentos WHERE id=$id";
-                                if ($conexao->query($sql) === TRUE) {
-                                    echo "Equipamento deletado com sucesso!";
-                                } else {
-                                    throw new Exception($conexao->error);
-                                }
-                            } catch (Exception $e) {
-                                if (strpos($e->getMessage(), 'a foreign key constraint fails') !== false) {
-                                    echo "<script>alert('Equipamento associado em um plano existente, não é possivel deletar');</script>";
-                                } else {
-                                    echo "Erro ao deletar: " . $e->getMessage();
-                                }
-                            }
-                        }
-
                         $sql = "SELECT * FROM equipamentos";
                         $result = $conexao->query($sql);
 
                         if ($result->num_rows > 0) {
-                            while($row = $result->fetch_assoc()) {
+                            while ($row = $result->fetch_assoc()) {
                                 echo "<tr>
                                     <td>{$row['nome']}</td>
                                     <td>{$row['tempo']}</td>
@@ -179,7 +168,7 @@
                                     <td>{$row['vazao']}</td>
                                     <td>
                                         <a href='editarequipamentos.php?id={$row['id']}'><i class='fa-solid fa-edit'></i></a>
-                                        <a href='equipamento.php?delete={$row['id']}'><i class='fa-solid fa-trash'></i></a>
+                                        <a href='deletarequipamentos.php?delete={$row['id']}'><i class='fa-solid fa-trash'></i></a>
                                     </td>
                                 </tr>";
                             }
@@ -198,5 +187,3 @@
 </body>
 
 </html>
-
-
