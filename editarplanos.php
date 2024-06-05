@@ -27,6 +27,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                    WHERE id = $id";
 
     if ($conexao->query($sql_update) === TRUE) {
+        // Recalcular o custo total do plano atualizado
+        $sql_equipamento = "SELECT vazao, tempo FROM equipamentos WHERE id = $equipamento";
+        $result_equipamento = $conexao->query($sql_equipamento);
+
+        if ($result_equipamento->num_rows > 0) {
+            $row = $result_equipamento->fetch_assoc();
+            $vazao = $row['vazao'];
+            $tempo = $row['tempo'];
+
+            $dataInicioObj = new DateTime($dataInicio);
+            $dataFinalObj = new DateTime($dataFinal);
+            $intervalo = $dataInicioObj->diff($dataFinalObj);
+            $dias = $intervalo->days + 1;
+
+            $consumoDiario = $vazao * $tempo;
+            $consumoTotalLitros = $consumoDiario * $dias;
+            $consumoTotalM3 = $consumoTotalLitros / 1000;
+
+            $custoTotal = $consumoTotalM3 * $valorAgua;
+
+            $sql_update_custo = "UPDATE planos SET custoTotal = '$custoTotal' WHERE id = $id";
+            $conexao->query($sql_update_custo);
+        }
+        
         header("Location: plano.php");
         exit;
     } else {

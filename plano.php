@@ -1,5 +1,5 @@
 <?php
-include_once ('config.php');
+include_once('config.php');
 
 $sql_produtos = "SELECT id, nome FROM produtos";
 $result_produtos = $conexao->query($sql_produtos);
@@ -10,11 +10,8 @@ $result_equipamentos = $conexao->query($sql_equipamentos);
 $produtos_disponiveis = $result_produtos->num_rows > 0;
 $equipamentos_disponiveis = $result_equipamentos->num_rows > 0;
 
-?>
-
-<?php
 session_start();
-include_once ('config.php');
+include_once('config.php');
 
 if ((!isset($_SESSION['email']) == true) and (!isset($_SESSION['senha']) == true)) {
     unset($_SESSION['email']);
@@ -23,14 +20,12 @@ if ((!isset($_SESSION['email']) == true) and (!isset($_SESSION['senha']) == true
 }
 $logadoEmail = $_SESSION['email'];
 
-// Conectando ao banco de dados
 $conexao = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
 
 if ($conexao->connect_error) {
     die("Falha na conexão: " . $conexao->connect_error);
 }
 
-// Buscando o nome do usuário
 $sqlNome = "SELECT nome FROM usuarios WHERE email = '$logadoEmail'";
 $resultNome = $conexao->query($sqlNome);
 $logadoNome = '';
@@ -42,7 +37,6 @@ if ($resultNome->num_rows > 0) {
 
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,7 +48,6 @@ if ($resultNome->num_rows > 0) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src="Higritech_script/produtos.js" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
     <title>Higritech</title>
 </head>
 
@@ -76,7 +69,6 @@ if ($resultNome->num_rows > 0) {
             </div>
         </div>
     </header>
-
 
     <!-- Menu Lateral -->
     <div class="Conteudo" id="Conteudo">
@@ -147,7 +139,7 @@ if ($resultNome->num_rows > 0) {
                     </div>
                     <div class="campo-entrada">
                         <label for="valorAgua">Valor Água/M³:</label>
-                        <input type="number"  step="any" id="valorAgua" name="valorAgua" required>
+                        <input type="number" step="any" id="valorAgua" name="valorAgua" required>
                     </div>
                     <?php if (!$produtos_disponiveis): ?>
                         <div class="campo-entrada">
@@ -190,7 +182,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $produtos_disponiveis && $equipament
     $equipamento = $_POST['equipamento'];
     $valorAgua = $_POST['valorAgua'];
 
-    // Buscar a vazão e tempo do equipamento selecionado
     $sql_equipamento = "SELECT vazao, tempo FROM equipamentos WHERE id = $equipamento";
     $result_equipamento = $conexao->query($sql_equipamento);
 
@@ -199,29 +190,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $produtos_disponiveis && $equipament
         $vazao = $row['vazao'];
         $tempo = $row['tempo'];
 
-        // Converter as datas para o formato DateTime
         $dataInicioObj = new DateTime($dataInicio);
         $dataFinalObj = new DateTime($dataFinal);
-
-        // Calcular a diferença entre as datas
         $intervalo = $dataInicioObj->diff($dataFinalObj);
+        $dias = $intervalo->days + 1;
 
-        // Obter o número de dias da diferença
-        $dias = $intervalo->days + 1; // +1 para incluir o dia final no cálculo
-
-        // Calcular o consumo diário em litros
         $consumoDiario = $vazao * $tempo;
-
-        // Calcular o consumo total em litros
         $consumoTotalLitros = $consumoDiario * $dias;
-
-        // Converter o consumo total para metros cúbicos
         $consumoTotalM3 = $consumoTotalLitros / 1000;
 
-        // Calcular o custo total
         $custoTotal = $consumoTotalM3 * $valorAgua;
 
-        // Inserir o novo plano na tabela planos
         $sql_insert = "INSERT INTO planos (dataInicio, dataFinal, produto_id, equipamento_id, valorAgua, custoTotal) 
                         VALUES ('$dataInicio', '$dataFinal', '$produto', '$equipamento', '$valorAgua', '$custoTotal')";
 
@@ -253,8 +232,6 @@ if (isset($_GET['delete'])) {
     }
 }
 
-
-// Selecionar e exibir todos os planos
 $sql_planos = "SELECT planos.id, planos.dataInicio, planos.dataFinal, produtos.nome AS produto, equipamentos.nome AS equipamento, planos.custoTotal 
                 FROM planos 
                 JOIN produtos ON planos.produto_id = produtos.id 

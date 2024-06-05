@@ -100,20 +100,20 @@
                 <h2>Cadastrar Equipamentos</h2>
                 <form action="equipamento.php" method="POST">
                     <div class="campo-entrada">
-                        <label for="nomeProduto">Nome do equipamento:</label>
-                        <input type="text" id="nomeProduto" name="nomeProduto" required>
+                        <label for="nomeEquipamento">Nome do equipamento:</label>
+                        <input type="text" id="nomeEquipamento" name="nomeEquipamento" required>
                     </div>
                     <div class="campo-entrada">
-                        <label for="unidadeMedida">Utilização diária (horas): </label>
-                        <input type="decimal" id="unidadeMedida" name="unidadeMedida" required>
+                        <label for="tempo">Utilização diária (horas): </label>
+                        <input type="decimal" id="tempo" name="tempo" required>
                     </div>
                     <div class="campo-entrada">
-                        <label for="producaoMinima">Raio de alcance (metros):</label>
-                        <input type="number" id="producaoMinima" name="producaoMinima" required>
+                        <label for="raio">Raio de alcance (metros):</label>
+                        <input type="number" id="raio" name="raio" required>
                     </div>
                     <div class="campo-entrada">
-                        <label for="producaoMaxima">Vazão Litros/Hora:</label>
-                        <input type="decimal" id="producaoMaxima" name="producaoMaxima" required>
+                        <label for="vazao">Vazão Litros/Hora:</label>
+                        <input type="decimal" id="vazao" name="vazao" required>
                     </div>
                     <button class="cadastro" type="submit" name="cadastrar">Cadastrar</button>
                 </form>
@@ -136,10 +136,10 @@
                         include_once ('config.php');
 
                         if (isset($_POST['cadastrar'])) {
-                            $nome = $_POST['nomeProduto'];
-                            $tempo = $_POST['unidadeMedida'];
-                            $raio = $_POST['producaoMinima'];
-                            $vazao = $_POST['producaoMaxima'];
+                            $nome = $_POST['nomeEquipamento'];
+                            $tempo = $_POST['tempo'];
+                            $raio = $_POST['raio'];
+                            $vazao = $_POST['vazao'];
 
                             $sql = "INSERT INTO equipamentos (nome, tempo, raio, vazao) VALUES ('$nome', '$tempo', $raio, $vazao)";
                             if ($conexao->query($sql) === TRUE) {
